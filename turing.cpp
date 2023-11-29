@@ -19,7 +19,6 @@ public:
 
 private:
     void printTape();
-    void extendTape();
     std::string findTransitionRule();
     int updateTape(std::string &currentTransitionRule);
 
@@ -34,11 +33,6 @@ private:
 
 // Constructor for the Turing machine
 TuringMachine::TuringMachine(const std::string& input) : tape(input.begin(), input.end()), headPosition(0), currentState("Q0") {}
-
-
-void TuringMachine::extendTape() {
-
-}
 
 //load 0n1n transition rules
 void TuringMachine::loadZeroOneTransitions() {
