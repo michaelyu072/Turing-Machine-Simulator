@@ -176,11 +176,13 @@ int TuringMachine::updateTape(std::string& currentTransitionRule) {
     if(transitionKey[2][0] == 'A') {
         return 0; //accepting status
     } else if(transitionKey[2][0] == 'R') {
+        //grow tape with blank cell if hit the end of current array
         if(headPosition == tape.size() - 1) {
             tape.push_back('-');
         }
         headPosition++;
     } else if (transitionKey[2][0] == 'L') {
+        //grow tape to the left (front)
         if(headPosition == 0) {
             tape.push_front('-');
         } else {
@@ -196,7 +198,7 @@ int TuringMachine::updateTape(std::string& currentTransitionRule) {
 // Function to simulate the Turing machine
 void TuringMachine::run() {
 
-    // For demonstration purposes, let's move the tape head to the right
+    // while true, load transition rule and update tape
     while (true) {
         std::string currentTransitionRule = findTransitionRule();
         int status = updateTape(currentTransitionRule);
@@ -231,6 +233,17 @@ int main() {
     while(true) {
         std::cout << "Please enter 1 or 2:" << std::endl;
         std::cin >> selection;
+        if (std::cin.fail())
+            {
+            std::cout << "ERROR -- You did not enter an integer" << std::endl;;
+
+            // get rid of failure state
+            std::cin.clear(); 
+
+            // discard 'bad' character(s) 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            }
         if(selection != 1 && selection != 2) {
             std::cout << "invalid choice, try again to enter 1 or 2:" << std::endl;
         } else {
@@ -241,7 +254,7 @@ int main() {
     std::cout << "Please enter a string to be processed: " << std::endl;
     std::cin >> input;
 
-    // Create a Turing machine with the SAT problem input
+    // Create a Turing machine with the problem input
     TuringMachine tm(input);
 
     //load transition rules into the TM
